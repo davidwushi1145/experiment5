@@ -8,11 +8,11 @@ const routes = [
     name: 'login',
     component: LoginView
   },
-  // {
-  //   path: '/',
-  //   name: 'home',
-  //   component: HomeView
-  // },
+  {
+    path: '/home',
+    name: 'home',
+    component: HomeView
+  },
   {
     path: '/register',
     name: 'register',
