@@ -32,17 +32,17 @@
               </el-table>
             </el-tab-pane>
             <el-tab-pane label="Edit">
-              <el-table :data="tableDatas" stripe style="width: 100%">
+              <el-table :data="tableDatas" stripe style="width: 100%" key="slot">
                 <el-table-column prop="id" label="ID" min-width="180"/>
                 <el-table-column prop="name" label="Name" min-width="180"/>
                 <el-table-column prop="password" label="Password" min-width="180"/>
-                <el-table-column fixed="'right'" label="Operations" min-width="180">
+                <el-table-column fixed="right" label="Operations" min-width="180">
                   <template #default="scope">
-                    <el-button text @click="dialogFormVisible = true">
+                    <el-button type="primary" @click="dialogFormVisible = true">
                       open to edit
                     </el-button>
 
-                    <el-dialog v-model="dialogFormVisible" title="Edit" width="33%">
+                    <el-dialog v-model="dialogFormVisible" title="Edit" width="33%" append-to-body="true">
                       <el-form :model="form" class="demo-Form" ref="form">
                         <el-row justify="center" type="flex">
                           <el-form-item label="name" :label-width="formLabelWidth">
@@ -51,7 +51,7 @@
                         </el-row>
                         <el-row justify="center" type="flex">
                           <el-form-item label="password" :label-width="formLabelWidth">
-                            <el-input v-model="form.password" autocomplete="off"/>
+                            <el-input v-model="form.password" autocomplete="off" show-password/>
                           </el-form-item>
                         </el-row>
                       </el-form>
@@ -74,12 +74,10 @@
               <el-table :data="tableDatas" style="width: 100%">
                 <el-table-column prop="id" label="ID" min-width="180"/>
                 <el-table-column prop="name" label="Name" min-width="180"/>
-                <el-table-column fixed="'right'" label="Operations" min-width="180">
+                <el-table-column fixed="right" label="Operations" min-width="180">
                   <template #default="scope">
                     <el-button
-                        link
-                        type="primary"
-                        size="small"
+                        type="danger"
                         @click.prevent="deleteRow(scope.$index)"
                     >
                       Remove
@@ -106,7 +104,6 @@ export default {
     return {
       dialogFormVisible,
     }
-
   },
   name: "AboutView",
   data() {
@@ -117,7 +114,7 @@ export default {
         password: '',
         id: '',
       },
-      formLabelWidth: '120px'
+      formLabelWidth: '80px'
     }
   },
   methods: {
@@ -145,9 +142,11 @@ export default {
     deleteRow(index) {
       this.axios.delete('http://localhost:1145/service/user/delete?id=' + this.tableDatas[index].id).then(function (response) {
         let data = response.data;
+        open1();
         console.log(data)
       }).catch(function (error) {
         console.log(error);
+        open3();
       });
       this.tableDatas.splice(index, 1)
     },
@@ -171,7 +170,15 @@ const open2 = () => {
 const open4 = () => {
   ElMessage.error('修改失败')
 }
-
+const open1 = () => {
+  ElMessage({
+    message: '删除成功',
+    type: 'success',
+  })
+}
+const open3 = () => {
+  ElMessage.error('删除失败')
+}
 </script>
 <style scoped>
 .el-button--text {
